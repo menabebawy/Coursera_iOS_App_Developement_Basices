@@ -172,7 +172,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let leftConstraint = filterMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
         let rightConstraint = filterMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
         
-        let heightConstraint = filterMenu.heightAnchor.constraintEqualToConstant(44)
+        let heightConstraint = filterMenu.heightAnchor.constraintEqualToConstant(50)
         
         NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
         
@@ -206,10 +206,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell:FilterCollectionViewCell = self.filtercollectionView.dequeueReusableCellWithReuseIdentifier("FilterCell", forIndexPath: indexPath) as! FilterCollectionViewCell
         
+        // configure cell
         cell.filterButton.tag = indexPath.row
         cell.filterButton .setTitle(self.filterArray[indexPath.row], forState: .Normal)
         cell.filterButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        cell.filterButton .addTarget(self, action: Selector("filterButtonClicked:"), forControlEvents: UIControlEvents.TouchUpInside)
+        cell.filterButton .addTarget(self, action: #selector(ViewController.filterButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        cell.filterButton .setBackgroundImage(self.getFilteredImage(indexPath.row), forState: .Normal)
         
         return cell
     }
@@ -305,6 +307,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let imageBrightnessFilter = ImageProcessor(image: UIImage(named: defaultImageName)!)
         self.filteredImage = imageBrightnessFilter.implementFilter(indexFilter)
         self.imageView.image = self.filteredImage
+    }
+    
+    func getFilteredImage(indexFilter: Int) ->UIImage {
+        let imageBrightnessFilter = ImageProcessor(image: UIImage(named: defaultImageName)!)
+        return imageBrightnessFilter.implementFilter(indexFilter)
     }
     
     // MARK: CompareScenario
