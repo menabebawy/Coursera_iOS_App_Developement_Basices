@@ -109,10 +109,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if (sender.selected) {
             self.showFilterImage()
             sender.selected = false
-            
+            self.filterButton.enabled = true
         }else{
             self.showDefaultImage()
             sender.selected = true
+            self.filterButton.enabled = false
         }
     }
     
@@ -221,37 +222,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         case 0:
             // enable comapreButton
             self.compareButton.enabled = true
-            
+            // set comparebutton selected = false
+            self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
-            
             self.imageProcessorWithIndex(0)
             break
         case 1:
             // enable comapreButton
             self.compareButton.enabled = true
-            
+            // set comparebutton selected = false
+            self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
-            
             self.imageProcessorWithIndex(1)
             break
         case 2:
             // enable comapreButton
             self.compareButton.enabled = true
-            
+            // set comparebutton selected = false
+            self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
-            
             self.imageProcessorWithIndex(2)
             break
         case 3:
             // enable comapreButton
             self.compareButton.enabled = true
-            
+            // set comparebutton selected = false
+            self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
-            
             self.imageProcessorWithIndex(3)
             break
         default:
