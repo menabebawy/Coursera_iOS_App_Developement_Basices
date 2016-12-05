@@ -106,12 +106,63 @@
                         <outlet property="bottomMenu" destination="JNF-wb-wwY" id="jTm-2q-PDu"/>
                         <outlet property="compareButton" destination="tPg-2N-f93" id="pYX-2l-mdb"/>
                         <outlet property="filterButton" destination="C6B-1F-j0K" id="6Kf-1q-zun"/>
+                        <outlet property="filterMenu" destination="7zc-2V-049" id="zOZ-Cy-UXS"/>
+                        <outlet property="filtercollectionView" destination="7zc-2V-049" id="2tt-re-9sx"/>
                         <outlet property="imageView" destination="aND-Em-4Dd" id="vbi-rB-DhQ"/>
                         <outlet property="originalLabel" destination="QTl-bT-t2K" id="qfk-jF-olR"/>
                         <outlet property="secondaryMenu" destination="ePS-oG-ZHP" id="Be7-JW-Iwe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="wBH-Vy-kW1">
+                    <rect key="frame" x="0.0" y="0.0" width="580" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7zc-2V-049">
+                            <rect key="frame" x="0.0" y="0.0" width="580" height="128"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MKf-Ge-0Xs">
+                                <size key="itemSize" width="100" height="100"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                            </collectionViewFlowLayout>
+                            <cells>
+                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="FilterCell" reuseIdentifier="FilterCell" id="Swe-Ci-Sol" customClass="FilterCollectionViewCell" customModule="Filterer" customModuleProvider="target">
+                                    <rect key="frame" x="10" y="14" width="100" height="100"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qwR-5t-8l6">
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <constraints>
+                                        <constraint firstItem="qwR-5t-8l6" firstAttribute="leading" secondItem="Swe-Ci-Sol" secondAttribute="leading" id="3pK-zC-jfX"/>
+                                        <constraint firstAttribute="trailing" secondItem="qwR-5t-8l6" secondAttribute="trailing" id="BnA-l4-wx2"/>
+                                        <constraint firstAttribute="bottom" secondItem="qwR-5t-8l6" secondAttribute="bottom" id="QeZ-UV-KGL"/>
+                                        <constraint firstItem="qwR-5t-8l6" firstAttribute="top" secondItem="Swe-Ci-Sol" secondAttribute="top" id="R9N-Ip-5A5"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="filterButton" destination="qwR-5t-8l6" id="yM7-Cz-SXv"/>
+                                    </connections>
+                                </collectionViewCell>
+                            </cells>
+                        </collectionView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="7zc-2V-049" firstAttribute="leading" secondItem="wBH-Vy-kW1" secondAttribute="leading" id="Y6t-cN-Tir"/>
+                        <constraint firstAttribute="bottom" secondItem="7zc-2V-049" secondAttribute="bottom" id="aJe-ae-2ZP"/>
+                        <constraint firstAttribute="trailing" secondItem="7zc-2V-049" secondAttribute="trailing" id="nni-Vf-fjp"/>
+                        <constraint firstItem="7zc-2V-049" firstAttribute="top" secondItem="wBH-Vy-kW1" secondAttribute="top" id="phf-pZ-Rfh"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" id="ePS-oG-ZHP">
                     <rect key="frame" x="0.0" y="0.0" width="580" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

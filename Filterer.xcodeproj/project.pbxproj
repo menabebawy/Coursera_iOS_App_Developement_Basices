@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3927D27C1DF5EECF00952EED /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3927D27B1DF5EECF00952EED /* FilterCollectionViewCell.swift */; };
 		395E03D51DF1B12600163A4F /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E03D41DF1B12500163A4F /* Filters.swift */; };
 		395E03D91DF1B64600163A4F /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E03D81DF1B64600163A4F /* ImageProcessor.swift */; };
 		4DC199981BB201E100AA75E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC199971BB201E100AA75E7 /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3927D27B1DF5EECF00952EED /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		395E03D41DF1B12500163A4F /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		395E03D81DF1B64600163A4F /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
 		4DC199941BB201E100AA75E7 /* Filterer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Filterer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				4DC199971BB201E100AA75E7 /* AppDelegate.swift */,
+				3927D27B1DF5EECF00952EED /* FilterCollectionViewCell.swift */,
 				4DC199991BB201E100AA75E7 /* ViewController.swift */,
 				4DC199A91BB2049F00AA75E7 /* RGBAImage.swift */,
 				395E03D41DF1B12500163A4F /* Filters.swift */,
@@ -147,6 +150,7 @@
 				395E03D51DF1B12600163A4F /* Filters.swift in Sources */,
 				395E03D91DF1B64600163A4F /* ImageProcessor.swift in Sources */,
 				4DC199AA1BB2049F00AA75E7 /* RGBAImage.swift in Sources */,
+				3927D27C1DF5EECF00952EED /* FilterCollectionViewCell.swift in Sources */,
 				4DC199981BB201E100AA75E7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

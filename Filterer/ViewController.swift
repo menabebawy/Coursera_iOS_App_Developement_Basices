@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
     let defaultImageName: String = "scenery"
     var filteredImage: UIImage?
@@ -19,13 +19,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var secondaryMenu: UIView!
     @IBOutlet var bottomMenu: UIView!
     
+    @IBOutlet var filterMenu:UIView!
+    @IBOutlet weak var filtercollectionView:UICollectionView!
+    let filterArray:Array = ["Brighness", "Green", "Purpple", "Yellow"]
+    
     @IBOutlet var filterButton: UIButton!
     @IBOutlet weak var compareButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
+        //secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        //secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
+        
+        filterMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        filterMenu.translatesAutoresizingMaskIntoConstraints = false
         
         // hide originalLabel
         self.originalLabel.hidden = true
@@ -40,6 +47,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.longTap(_:)))
         longGesture.delegate = self
         self.imageView.addGestureRecognizer(longGesture)
+        
+        // collectionView delegate
+        self.filtercollectionView.dataSource = self;
+        self.filtercollectionView.delegate = self;
     }
 
     // MARK: Share
@@ -110,13 +121,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if (sender.selected) {
             // set default image -> imageView.image
             self.showDefaultImage()
-            hideSecondaryMenu()
+            //hideSecondaryMenu()
+            hideFilterMenu()
             self.filteredImage = UIImage (named: defaultImageName)
             sender.selected = false
             // disable compare button
             self.compareButton.enabled = false
         } else {
-            showSecondaryMenu()
+            showFilterMenu()
+            //showSecondaryMenu()
             sender.selected = true
         }
     }
@@ -139,14 +152,108 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.secondaryMenu.alpha = 1.0
         }
     }
-
+    
     func hideSecondaryMenu() {
         UIView.animateWithDuration(0.4, animations: {
             self.secondaryMenu.alpha = 0
-            }) { completed in
-                if completed == true {
-                    self.secondaryMenu.removeFromSuperview()
-                }
+        }) { completed in
+            if completed == true {
+                self.secondaryMenu.removeFromSuperview()
+            }
+        }
+    }
+
+    
+    // MARK: ShowFilterMenu
+    func showFilterMenu() {
+        view.addSubview(filterMenu)
+        
+        let bottomConstraint = filterMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
+        let leftConstraint = filterMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
+        let rightConstraint = filterMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        
+        let heightConstraint = filterMenu.heightAnchor.constraintEqualToConstant(44)
+        
+        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
+        
+        view.layoutIfNeeded()
+        
+        self.filterMenu.alpha = 0
+        UIView.animateWithDuration(0.4) {
+            self.filterMenu.alpha = 1.0
+        }
+
+    }
+    
+    // MARK: HideFilterMenu
+    
+    func hideFilterMenu() {
+        UIView.animateWithDuration(0.4, animations: {
+            self.filterMenu.alpha = 0
+        }) { completed in
+            if completed == true {
+                self.filterMenu.removeFromSuperview()
+            }
+        }
+    }
+
+    // MARK: UICollectionViewDataSource
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.filterArray.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell:FilterCollectionViewCell = self.filtercollectionView.dequeueReusableCellWithReuseIdentifier("FilterCell", forIndexPath: indexPath) as! FilterCollectionViewCell
+        
+        cell.filterButton.tag = indexPath.row
+        cell.filterButton .setTitle(self.filterArray[indexPath.row], forState: .Normal)
+        cell.filterButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        cell.filterButton .addTarget(self, action: Selector("filterButtonClicked:"), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        return cell
+    }
+    
+    func filterButtonClicked(sender:UIButton) {
+        switch sender.tag {
+        case 0:
+            // enable comapreButton
+            self.compareButton.enabled = true
+            
+            // originalLabel
+            self.originalLabel.hidden = true
+            
+            self.imageProcessorWithIndex(0)
+            break
+        case 1:
+            // enable comapreButton
+            self.compareButton.enabled = true
+            
+            // originalLabel
+            self.originalLabel.hidden = true
+            
+            self.imageProcessorWithIndex(1)
+            break
+        case 2:
+            // enable comapreButton
+            self.compareButton.enabled = true
+            
+            // originalLabel
+            self.originalLabel.hidden = true
+            
+            self.imageProcessorWithIndex(2)
+            break
+        case 3:
+            // enable comapreButton
+            self.compareButton.enabled = true
+            
+            // originalLabel
+            self.originalLabel.hidden = true
+            
+            self.imageProcessorWithIndex(3)
+            break
+        default:
+            break
         }
     }
     
