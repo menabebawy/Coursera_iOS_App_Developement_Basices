@@ -209,7 +209,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // configure cell
         cell.filterButton.tag = indexPath.row
-        cell.filterButton .setTitle(self.filterArray[indexPath.row], forState: .Normal)
+        //cell.filterButton .setTitle(self.filterArray[indexPath.row], forState: .Normal)
         cell.filterButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         cell.filterButton .addTarget(self, action: #selector(ViewController.filterButtonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         cell.filterButton .setBackgroundImage(self.getFilteredImage(indexPath.row), forState: .Normal)
