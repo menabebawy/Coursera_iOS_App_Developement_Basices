@@ -8,12 +8,12 @@
 
 import UIKit
 
-enum FilterList: String  {
-    case Brightness = "Brightness"
-    case RemoveRed = "RemoveRed"
-    case RemoveGreen = "RemoveGreen"
-    case RemoveBlue = "RemoveBlue"
-}
+//enum FilterList: String  {
+//    case Brightness = "Brightness"
+//    case RemoveRed = "RemoveRed"
+//    case RemoveGreen = "RemoveGreen"
+//    case RemoveBlue = "RemoveBlue"
+//}
 
 class ImageProcessor: NSObject, Filters {
     var image:UIImage
@@ -25,7 +25,37 @@ class ImageProcessor: NSObject, Filters {
         self.rgbaImage = RGBAImage(image: self.image)!
     }
     
-    func implementFilter(filterIndex: Int) ->UIImage {
+    func changeIntensity(intensity: Int) -> UIImage {
+        for y in 0..<self.rgbaImage.height {
+            for x in 0..<self.rgbaImage.width {
+                let index = y * self.rgbaImage.width + x
+                var pixel = self.rgbaImage.pixels[index]
+                if (Int(intensity) + Int(pixel.red) > 255){
+                    pixel.red = 255
+                }else{
+                    pixel.red += UInt8(intensity)
+                }
+                
+                if (Int(intensity) + Int(pixel.green) > 255) {
+                    pixel.green = 255
+                }else {
+                    pixel.green += UInt8(intensity)
+                }
+                
+                if (Int(intensity) + Int(pixel.blue) > 255) {
+                    pixel.blue = 255
+                }else{
+                    pixel.blue += UInt8(intensity)
+                }
+                
+                
+                self.rgbaImage.pixels[index] = pixel
+            }
+        }
+        return self.rgbaImage.toUIImage()!
+    }
+    
+    func implementFilter(filterIndex: Int) -> UIImage {
         for y in 0..<self.rgbaImage.height {
             for x in 0..<self.rgbaImage.width {
                 let index = y * self.rgbaImage.width + x
@@ -39,17 +69,17 @@ class ImageProcessor: NSObject, Filters {
                     pixel = brightnessFilter(pixel: pixel)
                     break
                     
-                // ExpandRedArea
+                // greenFilter
                 case 1:
                     pixel = greenFilter(pixel: pixel)
                     break
                     
-                //RemoveGreen
+                //purppleFilter
                 case 2:
                     pixel = purppleFilter(pixel: pixel)
                     break
                     
-                // BlueFilter
+                // yellowFilter
                 case 3:
                     pixel = yellowFilter(pixel: pixel)
                     break
@@ -68,7 +98,7 @@ class ImageProcessor: NSObject, Filters {
     // MARK: FiltersProtocols
     
     func brightnessFilter(var pixel pixel: Pixel) -> Pixel {
-       // (0.2126*R + 0.7152*G + 0.0722*B)
+        // (0.2126*R + 0.7152*G + 0.0722*B)
         // Modify the pixel by the adjustment percentage
         let red = round(Double(pixel.red) * 1.5)
         let blue = round(Double(pixel.blue) * 1.5)

@@ -117,6 +117,7 @@
                         <outlet property="filterMenu" destination="7zc-2V-049" id="zOZ-Cy-UXS"/>
                         <outlet property="filtercollectionView" destination="7zc-2V-049" id="2tt-re-9sx"/>
                         <outlet property="imageView" destination="aND-Em-4Dd" id="vbi-rB-DhQ"/>
+                        <outlet property="intensitySlider" destination="JMb-t7-4GV" id="CpE-uz-MrQ"/>
                         <outlet property="originalLabel" destination="QTl-bT-t2K" id="qfk-jF-olR"/>
                         <outlet property="secondaryMenu" destination="ePS-oG-ZHP" id="Be7-JW-Iwe"/>
                         <outlet property="sliderMenu" destination="JF1-U6-7OE" id="JMA-Vi-Fzs"/>
@@ -182,11 +183,8 @@
                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sRV-9U-dI4">
                             <rect key="frame" x="20" y="0.0" width="200" height="128"/>
                             <subviews>
-                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JMb-t7-4GV">
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="255" translatesAutoresizingMaskIntoConstraints="NO" id="JMb-t7-4GV">
                                     <rect key="frame" x="-2" y="0.0" width="204" height="129"/>
-                                    <connections>
-                                        <action selector="sliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="gZI-3G-PUc"/>
-                                    </connections>
                                 </slider>
                             </subviews>
                         </stackView>

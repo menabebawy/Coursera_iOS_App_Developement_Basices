@@ -29,6 +29,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var editButton: UIButton!
     
     @IBOutlet var sliderMenu: UIView!
+    @IBOutlet weak var intensitySlider: UISlider!
     
     
     override func viewDidLoad() {
@@ -60,6 +61,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // collectionView delegate
         self.filtercollectionView.dataSource = self;
         self.filtercollectionView.delegate = self;
+        
+        self.intensitySlider.addTarget(self, action:#selector(ViewController.sliderDidEndSliding), forControlEvents: .TouchUpInside)
+//        
+//        [_mySlider addTarget:self
+//            action:@selector(sliderDidEndSliding:)
+//        forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
     }
 
     // MARK: Share
@@ -144,9 +151,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.filterButton.enabled = false
             self.compareButton.enabled = false
         }
-    }
-
-    @IBAction func sliderValueChanged(sender: AnyObject) {
     }
     
     // MARK: Filter Menu
@@ -341,6 +345,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         menu.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    
+    @IBAction func sliderDidEndSliding() {
+        print(Int(self.intensitySlider.value))
+        let imageBrightnessFilter = ImageProcessor(image: self.filteredImage!)
+        self.imageView.image = imageBrightnessFilter.changeIntensity(Int(self.intensitySlider.value))
+    }
    
 }
 
