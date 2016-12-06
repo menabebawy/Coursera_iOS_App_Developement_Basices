@@ -38,7 +38,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPg-yq-mNp">
-                                                <rect key="frame" x="0.0" y="0.0" width="150" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="120" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="Qiv-OS-HEF"/>
                                                 </constraints>
@@ -48,7 +48,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6B-1F-j0K">
-                                                <rect key="frame" x="150" y="0.0" width="150" height="44"/>
+                                                <rect key="frame" x="120" y="0.0" width="120" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="9TF-bC-3of"/>
                                                 </constraints>
@@ -57,8 +57,15 @@
                                                     <action selector="onFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bde-Ke-RWf"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1d0-lL-3qv">
+                                                <rect key="frame" x="240" y="0.0" width="120" height="44"/>
+                                                <state key="normal" title="Edit"/>
+                                                <connections>
+                                                    <action selector="onEdit:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6sR-wN-hR2"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tPg-2N-f93">
-                                                <rect key="frame" x="300" y="0.0" width="150" height="44"/>
+                                                <rect key="frame" x="360" y="0.0" width="120" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="zgf-3k-aR7"/>
                                                 </constraints>
@@ -68,7 +75,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Leg-ry-Zqw">
-                                                <rect key="frame" x="450" y="0.0" width="150" height="44"/>
+                                                <rect key="frame" x="480" y="0.0" width="120" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="IZl-Nh-MXv"/>
                                                 </constraints>
@@ -105,12 +112,14 @@
                     <connections>
                         <outlet property="bottomMenu" destination="JNF-wb-wwY" id="jTm-2q-PDu"/>
                         <outlet property="compareButton" destination="tPg-2N-f93" id="pYX-2l-mdb"/>
+                        <outlet property="editButton" destination="1d0-lL-3qv" id="3p9-Df-Fdi"/>
                         <outlet property="filterButton" destination="C6B-1F-j0K" id="6Kf-1q-zun"/>
                         <outlet property="filterMenu" destination="7zc-2V-049" id="zOZ-Cy-UXS"/>
                         <outlet property="filtercollectionView" destination="7zc-2V-049" id="2tt-re-9sx"/>
                         <outlet property="imageView" destination="aND-Em-4Dd" id="vbi-rB-DhQ"/>
                         <outlet property="originalLabel" destination="QTl-bT-t2K" id="qfk-jF-olR"/>
                         <outlet property="secondaryMenu" destination="ePS-oG-ZHP" id="Be7-JW-Iwe"/>
+                        <outlet property="sliderMenu" destination="JF1-U6-7OE" id="JMA-Vi-Fzs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -164,6 +173,30 @@
                         <constraint firstAttribute="bottom" secondItem="7zc-2V-049" secondAttribute="bottom" id="aJe-ae-2ZP"/>
                         <constraint firstAttribute="trailing" secondItem="7zc-2V-049" secondAttribute="trailing" id="nni-Vf-fjp"/>
                         <constraint firstItem="7zc-2V-049" firstAttribute="top" secondItem="wBH-Vy-kW1" secondAttribute="top" id="phf-pZ-Rfh"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" id="JF1-U6-7OE">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sRV-9U-dI4">
+                            <rect key="frame" x="20" y="0.0" width="200" height="128"/>
+                            <subviews>
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JMb-t7-4GV">
+                                    <rect key="frame" x="-2" y="0.0" width="204" height="129"/>
+                                    <connections>
+                                        <action selector="sliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="gZI-3G-PUc"/>
+                                    </connections>
+                                </slider>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="sRV-9U-dI4" secondAttribute="trailing" constant="20" id="Awq-mz-N7L"/>
+                        <constraint firstAttribute="bottom" secondItem="sRV-9U-dI4" secondAttribute="bottom" id="P1m-s6-Mhl"/>
+                        <constraint firstItem="sRV-9U-dI4" firstAttribute="leading" secondItem="JF1-U6-7OE" secondAttribute="leading" constant="20" id="TGN-6B-PNx"/>
+                        <constraint firstItem="sRV-9U-dI4" firstAttribute="top" secondItem="JF1-U6-7OE" secondAttribute="top" id="b3y-Hq-vNZ"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" id="ePS-oG-ZHP">

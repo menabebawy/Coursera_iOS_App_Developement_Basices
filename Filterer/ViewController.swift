@@ -26,13 +26,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var filterButton: UIButton!
     @IBOutlet weak var compareButton: UIButton!
     
+    @IBOutlet weak var editButton: UIButton!
+    
+    @IBOutlet var sliderMenu: UIView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         //secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         
+        // filterMenu layout
         filterMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         filterMenu.translatesAutoresizingMaskIntoConstraints = false
+        
+        // sliderMenu layout
+        sliderMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        sliderMenu.translatesAutoresizingMaskIntoConstraints = false
         
         // hide originalLabel
         self.originalLabel.hidden = true
@@ -42,6 +52,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // init by disable compare button
         self.compareButton.enabled = false
+        
+        // init by disable edit button
+        self.editButton.enabled = false
         
         // lognPress
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.longTap(_:)))
@@ -117,6 +130,59 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    // MARK: Edit Action
+    
+    @IBAction func onEdit(sender: UIButton) {
+        if (sender.selected) {
+            self.hideSliderMenu()
+            self.showFilterMenu()
+            sender.selected = false
+            self.filterButton.enabled = true
+            self.compareButton.enabled = true
+        }else{
+            self.hideFilterMenu()
+            self.showSliderMenu()
+            sender.selected = true
+            self.filterButton.enabled = false
+            self.compareButton.enabled = false
+        }
+    }
+    
+    // MARK: ShowFilterMenu
+    func showSliderMenu() {
+        view.addSubview(sliderMenu)
+        
+        let bottomConstraint = sliderMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
+        let leftConstraint = sliderMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
+        let rightConstraint = sliderMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        
+        let heightConstraint = sliderMenu.heightAnchor.constraintEqualToConstant(50)
+        
+        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
+        
+        view.layoutIfNeeded()
+        
+        self.sliderMenu.alpha = 0
+        UIView.animateWithDuration(0.4) {
+            self.sliderMenu.alpha = 1.0
+        }
+        
+    }
+    
+    func hideSliderMenu() {
+        UIView.animateWithDuration(0.4, animations: {
+            self.sliderMenu.alpha = 0
+        }) { completed in
+            if completed == true {
+                self.sliderMenu.removeFromSuperview()
+            }
+        }
+    }
+
+
+    @IBAction func sliderValueChanged(sender: AnyObject) {
+    }
+    
     // MARK: Filter Menu
     @IBAction func onFilter(sender: UIButton) {
         if (sender.selected) {
@@ -128,6 +194,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             sender.selected = false
             // disable compare button
             self.compareButton.enabled = false
+            // disable edit button
+            self.editButton.enabled = false
         } else {
             showFilterMenu()
             //showSecondaryMenu()
@@ -226,6 +294,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
+            // enable edit button
+            self.editButton.enabled = true
             self.imageProcessorWithIndex(0)
             break
         case 1:
@@ -235,6 +305,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
+            // enable edit button
+            self.editButton.enabled = true
             self.imageProcessorWithIndex(1)
             break
         case 2:
@@ -244,6 +316,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
+            // enable edit button
+            self.editButton.enabled = true
             self.imageProcessorWithIndex(2)
             break
         case 3:
@@ -253,6 +327,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.compareButton.selected = false
             // originalLabel
             self.originalLabel.hidden = true
+            // enable edit button
+            self.editButton.enabled = true
             self.imageProcessorWithIndex(3)
             break
         default:
