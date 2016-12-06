@@ -33,16 +33,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        //secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         
         // filterMenu layout
-        filterMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        filterMenu.translatesAutoresizingMaskIntoConstraints = false
+        self.menuLayout(self.filterMenu)
         
         // sliderMenu layout
-        sliderMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        sliderMenu.translatesAutoresizingMaskIntoConstraints = false
+        self.menuLayout(self.sliderMenu)
         
         // hide originalLabel
         self.originalLabel.hidden = true
@@ -123,10 +119,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.showFilterImage()
             sender.selected = false
             self.filterButton.enabled = true
+            self.editButton.enabled = true
         }else{
             self.showDefaultImage()
             sender.selected = true
             self.filterButton.enabled = false
+            self.editButton.enabled = false
         }
     }
     
@@ -134,51 +132,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func onEdit(sender: UIButton) {
         if (sender.selected) {
-            self.hideSliderMenu()
-            self.showFilterMenu()
+            self.hideMenu(self.sliderMenu)
+            self.showMenu(self.filterMenu)
             sender.selected = false
             self.filterButton.enabled = true
             self.compareButton.enabled = true
         }else{
-            self.hideFilterMenu()
-            self.showSliderMenu()
+            self.hideMenu(self.filterMenu)
+           self.showMenu(self.sliderMenu)
             sender.selected = true
             self.filterButton.enabled = false
             self.compareButton.enabled = false
         }
     }
-    
-    // MARK: ShowFilterMenu
-    func showSliderMenu() {
-        view.addSubview(sliderMenu)
-        
-        let bottomConstraint = sliderMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
-        let leftConstraint = sliderMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
-        let rightConstraint = sliderMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
-        
-        let heightConstraint = sliderMenu.heightAnchor.constraintEqualToConstant(50)
-        
-        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
-        
-        view.layoutIfNeeded()
-        
-        self.sliderMenu.alpha = 0
-        UIView.animateWithDuration(0.4) {
-            self.sliderMenu.alpha = 1.0
-        }
-        
-    }
-    
-    func hideSliderMenu() {
-        UIView.animateWithDuration(0.4, animations: {
-            self.sliderMenu.alpha = 0
-        }) { completed in
-            if completed == true {
-                self.sliderMenu.removeFromSuperview()
-            }
-        }
-    }
-
 
     @IBAction func sliderValueChanged(sender: AnyObject) {
     }
@@ -189,7 +155,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             // set default image -> imageView.image
             self.showDefaultImage()
             //hideSecondaryMenu()
-            hideFilterMenu()
+            self.hideMenu(self.filterMenu)
             self.filteredImage = UIImage (named: defaultImageName)
             sender.selected = false
             // disable compare button
@@ -197,75 +163,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             // disable edit button
             self.editButton.enabled = false
         } else {
-            showFilterMenu()
+            self.showMenu(self.filterMenu)
             //showSecondaryMenu()
             sender.selected = true
         }
     }
     
-    func showSecondaryMenu() {
-        view.addSubview(secondaryMenu)
-        
-        let bottomConstraint = secondaryMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
-        let leftConstraint = secondaryMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
-        let rightConstraint = secondaryMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
-        
-        let heightConstraint = secondaryMenu.heightAnchor.constraintEqualToConstant(44)
-        
-        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
-        
-        view.layoutIfNeeded()
-        
-        self.secondaryMenu.alpha = 0
-        UIView.animateWithDuration(0.4) {
-            self.secondaryMenu.alpha = 1.0
-        }
-    }
-    
-    func hideSecondaryMenu() {
-        UIView.animateWithDuration(0.4, animations: {
-            self.secondaryMenu.alpha = 0
-        }) { completed in
-            if completed == true {
-                self.secondaryMenu.removeFromSuperview()
-            }
-        }
-    }
-
-    
-    // MARK: ShowFilterMenu
-    func showFilterMenu() {
-        view.addSubview(filterMenu)
-        
-        let bottomConstraint = filterMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
-        let leftConstraint = filterMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
-        let rightConstraint = filterMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
-        
-        let heightConstraint = filterMenu.heightAnchor.constraintEqualToConstant(50)
-        
-        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
-        
-        view.layoutIfNeeded()
-        
-        self.filterMenu.alpha = 0
-        UIView.animateWithDuration(0.4) {
-            self.filterMenu.alpha = 1.0
-        }
-
-    }
-    
-    // MARK: HideFilterMenu
-    
-    func hideFilterMenu() {
-        UIView.animateWithDuration(0.4, animations: {
-            self.filterMenu.alpha = 0
-        }) { completed in
-            if completed == true {
-                self.filterMenu.removeFromSuperview()
-            }
-        }
-    }
-
     // MARK: UICollectionViewDataSource
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -288,52 +191,32 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func filterButtonClicked(sender:UIButton) {
         switch sender.tag {
         case 0:
-            // enable comapreButton
-            self.compareButton.enabled = true
-            // set comparebutton selected = false
-            self.compareButton.selected = false
-            // originalLabel
-            self.originalLabel.hidden = true
-            // enable edit button
-            self.editButton.enabled = true
-            self.imageProcessorWithIndex(0)
+            self.handleSwitchCaseFilterButtonClicked(0)
             break
         case 1:
-            // enable comapreButton
-            self.compareButton.enabled = true
-            // set comparebutton selected = false
-            self.compareButton.selected = false
-            // originalLabel
-            self.originalLabel.hidden = true
-            // enable edit button
-            self.editButton.enabled = true
-            self.imageProcessorWithIndex(1)
+            self.handleSwitchCaseFilterButtonClicked(1)
             break
         case 2:
-            // enable comapreButton
-            self.compareButton.enabled = true
-            // set comparebutton selected = false
-            self.compareButton.selected = false
-            // originalLabel
-            self.originalLabel.hidden = true
-            // enable edit button
-            self.editButton.enabled = true
-            self.imageProcessorWithIndex(2)
+            self.handleSwitchCaseFilterButtonClicked(2)
             break
         case 3:
-            // enable comapreButton
-            self.compareButton.enabled = true
-            // set comparebutton selected = false
-            self.compareButton.selected = false
-            // originalLabel
-            self.originalLabel.hidden = true
-            // enable edit button
-            self.editButton.enabled = true
-            self.imageProcessorWithIndex(3)
+            self.handleSwitchCaseFilterButtonClicked(3)
             break
         default:
             break
         }
+    }
+    
+    func handleSwitchCaseFilterButtonClicked(index: Int) {
+        // enable comapreButton
+        self.compareButton.enabled = true
+        // set comparebutton selected = false
+        self.compareButton.selected = false
+        // originalLabel
+        self.originalLabel.hidden = true
+        // enable edit button
+        self.editButton.enabled = true
+        self.imageProcessorWithIndex(index)
     }
     
     // MARK: Second Menu Buttons Action
@@ -419,6 +302,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             //Do Whatever You want on Began of Gesture
             self.showDefaultImage()
         }
+    }
+    
+    // MARK: Show Hide Menu
+    func showMenu(menu: UIView) {
+        view.addSubview(menu)
+        
+        let bottomConstraint = menu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
+        let leftConstraint = menu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
+        let rightConstraint = menu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        
+        let heightConstraint = menu.heightAnchor.constraintEqualToConstant(50)
+        
+        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
+        
+        view.layoutIfNeeded()
+        
+        menu.alpha = 0
+        UIView.animateWithDuration(0.4) {
+            menu.alpha = 1.0
+        }
+    }
+    
+    func hideMenu(menu:UIView) {
+        UIView.animateWithDuration(0.4, animations: {
+            menu.alpha = 0
+        }) { completed in
+            if completed == true {
+                menu.removeFromSuperview()
+            }
+        }
+    }
+    
+    // MARK: Menu Layout
+    
+    func menuLayout(menu: UIView){
+        menu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        menu.translatesAutoresizingMaskIntoConstraints = false
     }
     
    
