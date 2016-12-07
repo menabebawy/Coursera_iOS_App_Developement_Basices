@@ -45,8 +45,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // hide originalLabel
         self.originalLabel.hidden = true
         
-        // init self.filteredImage and load self.imageView.image -> default image
+        // set originalImageview
         self.showDefaultImage()
+        
+        // init self.filteredImage and load self.imageView.image -> default image
+        self.showImageView(showImageView: self.originalImageView, hideImageView: self.filterImageView)
         
         // init by disable compare button
         self.compareButton.enabled = false
@@ -124,7 +127,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: Compare
     @IBAction func comparePressed(sender: UIButton) {
         if (sender.selected) {
-            self.showFilterImage()
+            self.showDefaultImage()
             sender.selected = false
             self.filterButton.enabled = true
             self.editButton.enabled = true
@@ -289,10 +292,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.originalLabel.hidden = false
     }
     
-    func showFilterImage() {
-        self.originalImageView.image = self.filteredImage
-        self.originalLabel.hidden = true
-    }
     
     // MARK: LognPressGesture
     
