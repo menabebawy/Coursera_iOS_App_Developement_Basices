@@ -13,7 +13,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     let defaultImageName: String = "scenery"
     var filteredImage: UIImage?
     
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var originalImageView: UIImageView!
+    @IBOutlet weak var filterImageView: UIImageView!
     @IBOutlet weak var originalLabel: UILabel!
     
     @IBOutlet var secondaryMenu: UIView!
@@ -56,7 +57,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // lognPress
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.longTap(_:)))
         longGesture.delegate = self
-        self.imageView.addGestureRecognizer(longGesture)
+        self.filterImageView.addGestureRecognizer(longGesture)
         
         // collectionView delegate
         self.filtercollectionView.dataSource = self;
@@ -71,7 +72,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     // MARK: Share
     @IBAction func onShare(sender: AnyObject) {
-        let activityController = UIActivityViewController(activityItems: ["Check out our really cool app", imageView.image!], applicationActivities: nil)
+        let activityController = UIActivityViewController(activityItems: ["Check out our really cool app", originalImageView.image!], applicationActivities: nil)
         presentViewController(activityController, animated: true, completion: nil)
     }
     
@@ -112,7 +113,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         dismissViewControllerAnimated(true, completion: nil)
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            imageView.image = image
+            originalImageView.image = image
         }
     }
     
@@ -223,6 +224,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.imageProcessorWithIndex(index)
     }
     
+    /*
     // MARK: Second Menu Buttons Action
     
     @IBAction func brightnessPressed(sender: AnyObject) {
@@ -264,13 +266,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         self.imageProcessorWithIndex(3)
     }
+ */
     
     // MARK: ImageProcessorClass
     
     func imageProcessorWithIndex(indexFilter:Int) {
         let imageBrightnessFilter = ImageProcessor(image: UIImage(named: defaultImageName)!)
         self.filteredImage = imageBrightnessFilter.implementFilter(indexFilter)
-        self.imageView.image = self.filteredImage
+        self.filterImageView.image = self.filteredImage
+        self.showImageView(showImageView: self.filterImageView, hideImageView: self.originalImageView)
     }
     
     func getFilteredImage(indexFilter: Int) ->UIImage {
@@ -281,12 +285,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: CompareScenario
     
     func showDefaultImage() {
-        self.imageView.image = UIImage(named: defaultImageName)
+        self.originalImageView.image = UIImage(named: defaultImageName)
         self.originalLabel.hidden = false
     }
     
     func showFilterImage() {
-        self.imageView.image = self.filteredImage
+        self.originalImageView.image = self.filteredImage
         self.originalLabel.hidden = true
     }
     
@@ -298,13 +302,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             print("UIGestureRecognizerStateEnded")
             //Do Whatever You want on End of Gesture
             if (self.filteredImage != nil) {
-                self.showFilterImage()
+                self.showImageView(showImageView: self.filterImageView, hideImageView: self.originalImageView)
             }
         }
         else if sender.state == .Began {
             print("UIGestureRecognizerStateBegan.")
             //Do Whatever You want on Began of Gesture
-            self.showDefaultImage()
+            self.showImageView(showImageView: self.originalImageView, hideImageView: self.filterImageView)
         }
     }
     
@@ -349,8 +353,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func sliderDidEndSliding() {
         print(Int(self.intensitySlider.value))
         let imageBrightnessFilter = ImageProcessor(image: self.filteredImage!)
-        self.imageView.image = imageBrightnessFilter.changeIntensity(Int(self.intensitySlider.value))
+        self.originalImageView.image = imageBrightnessFilter.changeIntensity(Int(self.intensitySlider.value))
     }
-   
+    
+    // MARK: Show && Hide ImageView
+    
+    func showImageView(showImageView showImageView: UIImageView, hideImageView: UIImageView) {
+        showImageView.alpha = 0
+        UIView.animateWithDuration(0.5, animations: {
+            showImageView.alpha = 1.0
+            if (showImageView == self.originalImageView){
+                self.originalLabel.hidden = false
+            }
+        }) { (true) in
+            hideImageView.alpha = 1.0
+            UIView.animateWithDuration(0.4) {
+                hideImageView.alpha = 0
+                if (hideImageView == self.originalImageView){
+                    self.originalLabel.hidden = true
+                }
+            }
+
+        }
+    }
 }
 
