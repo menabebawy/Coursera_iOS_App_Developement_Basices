@@ -97,11 +97,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func showCamera() {
+        /**************** commented to avoid crashing the App **********************
         let cameraPicker = UIImagePickerController()
         cameraPicker.delegate = self
         cameraPicker.sourceType = .Camera
         
-        presentViewController(cameraPicker, animated: true, completion: nil)
+        presentViewController(cameraPicker, animated: true, completion: nil) *******/
     }
     
     func showAlbum() {
@@ -127,12 +128,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: Compare
     @IBAction func comparePressed(sender: UIButton) {
         if (sender.selected) {
-            self.showDefaultImage()
+            self.showImageView(showImageView: self.filterImageView, hideImageView: self.originalImageView)
             sender.selected = false
             self.filterButton.enabled = true
             self.editButton.enabled = true
         }else{
-            self.showDefaultImage()
+            self.showImageView(showImageView: self.originalImageView, hideImageView: self.filterImageView)
             sender.selected = true
             self.filterButton.enabled = false
             self.editButton.enabled = false
@@ -161,7 +162,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func onFilter(sender: UIButton) {
         if (sender.selected) {
             // set default image -> imageView.image
-            self.showDefaultImage()
+            self.showImageView(showImageView: self.originalImageView, hideImageView: self.filterImageView)
             //hideSecondaryMenu()
             self.hideMenu(self.filterMenu)
             self.filteredImage = UIImage (named: defaultImageName)
@@ -352,7 +353,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func sliderDidEndSliding() {
         print(Int(self.intensitySlider.value))
         let imageBrightnessFilter = ImageProcessor(image: self.filteredImage!)
-        self.originalImageView.image = imageBrightnessFilter.changeIntensity(Int(self.intensitySlider.value))
+        self.filterImageView.image = imageBrightnessFilter.changeIntensity(Int(self.intensitySlider.value))
     }
     
     // MARK: Show && Hide ImageView
